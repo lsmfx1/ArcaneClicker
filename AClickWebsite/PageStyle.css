@@ -14,3 +14,7 @@ color:purple;
 text-align:center;
 font-size:18px;
 }
+.btn
+{
+cursor:pointer;
+}
