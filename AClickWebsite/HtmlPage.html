@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="PageStyle.css" />
-    <title></title>
+    <title>Arcane Clicker</title>
 </head>
 <body>
     <h1>
@@ -18,6 +18,17 @@
     <br />
     <button id="puddleClick" class="btn" onclick="puddleClick(1)">Buy Puddle</button>
     <br />
+    <footer>
+        <button id="saveClick" class="btn" onclick="save_game()">Save</button>
+        <button id="exportClick" class="btn" onclick="exportClick()">Export Save</button>
+        <button id="importClick" class="btn" onclick="importClick()">Import Save</button>
+        <button id="resetClick" class="btn" onclick="reset_game()">Reset</button>
+        <p> 
+            Ver 0.03
+            <br />Posted by: Frosty Games: <a href="mailto:lsmfx1@hotmail.com">Contact Us</a>
+            <br />Time since last save <span id="lastSave">0</span> seconds.
+        </p>
+    </footer>
     <script type="text/javascript" src="ArcaneClickScript.js"></script>
 </body>
 </html>
