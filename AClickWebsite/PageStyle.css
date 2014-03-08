@@ -16,5 +16,11 @@ font-size:18px;
 }
 .btn
 {
-cursor:pointer;
+    cursor:pointer;
+    display:normal;
+}
+.btnHidden
+{
+    cursor:pointer;
+    display:none;
 }

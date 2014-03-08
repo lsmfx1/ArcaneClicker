@@ -3,32 +3,52 @@
 <head>
     <link rel="stylesheet" type="text/css" href="PageStyle.css" />
     <title>Arcane Clicker</title>
+    <meta name="description" content="Arcane clicker is a game where you gather magic, craft spells, click buttons, and become a master spellcaster!" />
 </head>
 <body>
-    <h1>
-        Magick: <span id="magick">0</span>
-    </h1>
-    <h2>
-        Mana Puddles: <span id="puddles">0</span>
-    </h2>
-    <br />
-    <button id="magicClick" class="btn" onclick="magickClick(1)">Gain Magick!</button>
-    <br />
-        Puddle Cost: <span id="puddleCost">10</span>
-    <br />
-    <button id="puddleClick" class="btn" onclick="puddleClick(1)">Buy Puddle</button>
-    <br />
+    <h1>Arcane Clicker</h1>
+    <h2>Magick: <span id="magick">0</span>/<span id="maxMagick">50</span></h2>
+    <h3>
+        -Chi Collection-<br />
+        Pure Chi: <span id="pure">0</span><br />
+        Mana Puddles <span id="puddles">0</span>
+    </h3>
+    <h4>
+        <span id="GenerationSpan" onclick="viewClick('Generation')">Generation</span> | <span id="ResearchSpan" onclick="viewClick('Research')">Research</span>
+    </h4>
+    <div id="Generation">
+        <button id="magicClick" class="btn" onclick="magickClick(1)">Focus Magicks</button>
+        <button id="pureClick" class="btn" onclick="pureClick(1)">Convert (<span id="pureCost">10</span>) Magick to a Pure Chi</button>
+        <button id="puddleClick" class="btn" hidden onclick="puddleClick(1)">Convert (<span id="puddleCost">1</span>) Pure Chi to a Mana Pool</button>
+    </div>
+    <div hidden id="Research">
+        <button id="bookClick" class="btn" onclick="bookClick()">Turn (5) Pure Chi into a book of Magic</button>
+    </div>
+
     <footer>
         <button id="saveClick" class="btn" onclick="save_game()">Save</button>
         <button id="exportClick" class="btn" onclick="exportClick()">Export Save</button>
         <button id="importClick" class="btn" onclick="importClick()">Import Save</button>
         <button id="resetClick" class="btn" onclick="reset_game()">Reset</button>
         <p> 
-            Ver 0.03
+            Ver 0.06
             <br />Posted by: Frosty Games: <a href="mailto:lsmfx1@hotmail.com">Contact Us</a>
             <br />Time since last save <span id="lastSave">0</span> seconds.
         </p>
     </footer>
     <script type="text/javascript" src="ArcaneClickScript.js"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-48701113-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
 </body>
 </html>

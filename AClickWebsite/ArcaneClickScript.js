@@ -1,19 +1,34 @@
 ﻿const increaseRate = 1.25;
-const puddleCostStart = 10;
+const pureCostStart = 10;
+const puddleCostStart = 1;
+const basicBookCost = 5;
 var timeSinceLastSave = 1;
+var pureCost = pureCostStart;
+var puddleCost = puddleCostStart;
 var player = {
-totalClicks: 0,
-magick: 0,
-puddles: 0,
-interval_auto: null
+    totalMagickClicks: 0,
+    magick: 0,
+    maxMagick: 50,
+    pure: 0,
+    puddles: 0,
+    hasBasicBook: 0,
+    interval_auto: null
+}
+
+function player_defults()
+{
+    player.totalMagickClicks = 0;
+    player.magick = 0;
+    player.maxMagick = 50;
+    player.pure = 0;
+    player.puddles = 0;
+    player.hasBasicBook = 0;
+    player.interval_auto = null;
 }
 
 function reset_game() {
     if (confirm('Are you sure you want to delete all stats?')) {
-        player.totalClicks = 0;
-        player.magick = 0;
-        player.puddles = 0;
-        player.interval_auto = null;
+        player_defults();
         save_game();
         update_view();
     }
@@ -44,27 +59,58 @@ function load_game() {
 function load_game_string(loadedGame)
 {
     var save_data = JSON.parse(atob(loadedGame));
+    player_defults();
     player = save_data;
     update_view();
 }
 
 function magickClick(number) {
-    player.magick += number;
-    player.totalClicks++;
+    var newMagick = player.magick + number;
+    newMagick > player.maxMagick ? player.magick = player.maxMagick : player.magick = newMagick;
+    player.totalMagickClicks++;
+    update_view();
+};
+
+function pureClick(number) {
+    if (player.magick < pureCost) return;
+    player.pure++;
+    player.magick -= pureCost;
     update_view();
 };
 
 function puddleClick(number) {
-    if (player.magick >= puddleCost) {
-        player.puddles++;
-        player.magick -= puddleCost;
-    }
+    if (player.pure < puddleCost) return;
+    player.puddles++;
+    player.pure -= puddleCost;
     update_view();
 };
 
+function bookClick() {
+    if (player.pure < basicBookCost) return;
+    player.pure -= basicBookCost;
+    player.hasBasicBook = 1;
+    player.maxMagick = 200;
+    update_view();
+}
+
+function viewClick(id) {
+    //need to make an array of sections
+    //need to make css of active/unactive
+    document.getElementById("Generation").hidden = "Generation" != id;
+    document.getElementById("Research").hidden = "Research" != id;
+}
+
 function update_view() {
+    //buttons
+    document.getElementById("puddleClick").hidden = !player.hasBasicBook;
+    document.getElementById("bookClick").disabled = player.hasBasicBook;
+    //values
     document.getElementById("magick").innerHTML = player.magick;
+    document.getElementById("maxMagick").innerHTML = player.maxMagick;
     document.title = player.magick + "¤ | Arcane Clicker";
+    document.getElementById('pure').innerHTML = player.pure;
+    pureCost = Math.floor(pureCostStart * Math.pow(increaseRate, player.pure));
+    document.getElementById("pureCost").innerHTML = pureCost;
     document.getElementById('puddles').innerHTML = player.puddles;
     puddleCost = Math.floor(puddleCostStart * Math.pow(increaseRate, player.puddles));
     document.getElementById("puddleCost").innerHTML = puddleCost;
@@ -94,3 +140,4 @@ setInterval(function () {
     timeSinceLastSave == 10 ? save_game() : timeSinceLastSave++;
     update_view();
 }, 1000);
+//Notes: Chi, Jing
