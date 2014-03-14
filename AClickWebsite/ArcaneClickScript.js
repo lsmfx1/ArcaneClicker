@@ -1,29 +1,34 @@
-﻿const increaseRate = 1.25;
+﻿var SaveValuesEnum = Object.freeze({
+    totalMagickClicks: 0,
+    magick: 1,
+    maxMagick: 2,
+    pure: 3,
+    puddles: 4,
+    hasBasicBook: 5,
+    interval_auto: 6
+});
+const increaseRate = 1.25;
 const pureCostStart = 10;
 const puddleCostStart = 1;
 const basicBookCost = 5;
 var timeSinceLastSave = 1;
 var pureCost = pureCostStart;
 var puddleCost = puddleCostStart;
-var player = {
-    totalMagickClicks: 0,
-    magick: 0,
-    maxMagick: 50,
-    pure: 0,
-    puddles: 0,
-    hasBasicBook: 0,
-    interval_auto: null
+var player = new Array();
+player_defults();
+function player_defults() {
+    player[SaveValuesEnum.totalMagickClicks] = 0;
+    player[SaveValuesEnum.magick] = 0;
+    player[SaveValuesEnum.maxMagick] = 50;
+    player[SaveValuesEnum.pure] = 0;
+    player[SaveValuesEnum.puddles] = 0;
+    player[SaveValuesEnum.hasBasicBook] = 0;
+    player[SaveValuesEnum.interval_auto] = null;
 }
 
-function player_defults()
-{
-    player.totalMagickClicks = 0;
-    player.magick = 0;
-    player.maxMagick = 50;
-    player.pure = 0;
-    player.puddles = 0;
-    player.hasBasicBook = 0;
-    player.interval_auto = null;
+Array.prototype.loadData = function (loadArray) {
+    for (i = 0; i < loadArray.length; i++)
+    { player[i] = loadArray[i]; }
 }
 
 function reset_game() {
@@ -42,54 +47,56 @@ function save_game() {
 }
 
 function exportClick() {
+    save_game();
     if (!localStorage['ArcaneClicker_save']) return alert("No game data saved yet!");
     prompt("Please Copy this text!", localStorage['ArcaneClicker_save']);
 }
 
 function importClick() {
     var importValue = prompt("Please paste in provided text from export");
-    if (!importValue) return; //Remove this message
+    if (!importValue) return;
     load_game_string(importValue);
+    save_game();
 }
 function load_game() {
     if (!localStorage['ArcaneClicker_save']) return;
     load_game_string(localStorage['ArcaneClicker_save']);
 }
 
-function load_game_string(loadedGame)
-{
+function load_game_string(loadedGame) {
     var save_data = JSON.parse(atob(loadedGame));
+    if (!(save_data instanceof Array)) return alert("Save data invalid, it is highly suggested you reset!!!");
     player_defults();
-    player = save_data;
+    player.loadData(save_data);
     update_view();
 }
 
 function magickClick(number) {
-    var newMagick = player.magick + number;
-    newMagick > player.maxMagick ? player.magick = player.maxMagick : player.magick = newMagick;
-    player.totalMagickClicks++;
+    var newMagick = player[SaveValuesEnum.magick] + number;
+    newMagick > player[SaveValuesEnum.maxMagick] ? player[SaveValuesEnum.magick] = player[SaveValuesEnum.maxMagick] : player[SaveValuesEnum.magick] = newMagick;
+    player[SaveValuesEnum.totalMagickClicks]++;
     update_view();
 };
 
 function pureClick(number) {
-    if (player.magick < pureCost) return;
-    player.pure++;
-    player.magick -= pureCost;
+    if (player[SaveValuesEnum.magick] < pureCost) return;
+    player[SaveValuesEnum.pure]++;
+    player[SaveValuesEnum.magick] -= pureCost;
     update_view();
 };
 
 function puddleClick(number) {
-    if (player.pure < puddleCost) return;
-    player.puddles++;
-    player.pure -= puddleCost;
+    if (player[SaveValuesEnum.pure] < puddleCost) return;
+    player[SaveValuesEnum.puddles]++;
+    player[SaveValuesEnum.pure] -= puddleCost;
     update_view();
 };
 
 function bookClick() {
-    if (player.pure < basicBookCost) return;
-    player.pure -= basicBookCost;
-    player.hasBasicBook = 1;
-    player.maxMagick = 200;
+    if (player[SaveValuesEnum.pure] < basicBookCost) return;
+    player[SaveValuesEnum.pure] -= basicBookCost;
+    player[SaveValuesEnum.hasBasicBook] = 1;
+    player[SaveValuesEnum.maxMagick] = 200;
     update_view();
 }
 
@@ -102,32 +109,31 @@ function viewClick(id) {
 
 function update_view() {
     //buttons
-    document.getElementById("puddleClick").hidden = !player.hasBasicBook;
-    document.getElementById("bookClick").disabled = player.hasBasicBook;
+    document.getElementById("puddleClick").hidden = !player[SaveValuesEnum.hasBasicBook];
+    document.getElementById("bookClick").disabled = player[SaveValuesEnum.hasBasicBook];
     //values
-    document.getElementById("magick").innerHTML = player.magick;
-    document.getElementById("maxMagick").innerHTML = player.maxMagick;
-    document.title = player.magick + "¤ | Arcane Clicker";
-    document.getElementById('pure').innerHTML = player.pure;
-    pureCost = Math.floor(pureCostStart * Math.pow(increaseRate, player.pure));
+    document.getElementById("magick").innerHTML = player[SaveValuesEnum.magick];
+    document.getElementById("maxMagick").innerHTML = player[SaveValuesEnum.maxMagick];
+    document.title = player[SaveValuesEnum.magick] + "¤ | Arcane Clicker";
+    document.getElementById('pure').innerHTML = player[SaveValuesEnum.pure];
+    pureCost = Math.floor(pureCostStart * Math.pow(increaseRate, player[SaveValuesEnum.pure]));
     document.getElementById("pureCost").innerHTML = pureCost;
-    document.getElementById('puddles').innerHTML = player.puddles;
-    puddleCost = Math.floor(puddleCostStart * Math.pow(increaseRate, player.puddles));
+    document.getElementById('puddles').innerHTML = player[SaveValuesEnum.puddles];
+    puddleCost = Math.floor(puddleCostStart * Math.pow(increaseRate, player[SaveValuesEnum.puddles]));
     document.getElementById("puddleCost").innerHTML = puddleCost;
     document.getElementById("lastSave").innerHTML = timeSinceLastSave;
 }
 
-function setShortenedTime(location, value)
-{
+function setShortenedTime(location, value) {
     //4 K 7 M 11 B 14 T 17 Qi 20 Qa 23 Sx 26 Sp
     //should store in an array
     var letter = "";
 }
 
 function update_time() {
-    clearInterval(player.interval_auto);
-    player.interval_auto = setInterval(function () {
-        magickClick(player.puddles);
+    clearInterval(player[SaveValuesEnum.interval_auto]);
+    player[SaveValuesEnum.interval_auto] = setInterval(function () {
+        magickClick(player[SaveValuesEnum.puddles]);
     }, 1000);
 }
 
