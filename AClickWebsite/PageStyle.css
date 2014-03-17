@@ -14,10 +14,22 @@ color:purple;
 text-align:center;
 font-size:18px;
 }
+.selectedView
+{
+    font-size:16px;
+    text-decoration:underline;
+}
+.nonSelectedView
+{
+    font-size:14px;
+}
 .btn
 {
     cursor:pointer;
-    display:normal;
+}
+.btn:disabled
+{
+    cursor:initial;
 }
 .btnHidden
 {

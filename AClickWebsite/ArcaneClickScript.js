@@ -1,25 +1,25 @@
-﻿var SaveValuesEnum = Object.freeze({
+﻿const increaseRate = 1.25;
+const pureCostStart = 10;
+const puddleCostStart = 1;
+const basicBookCost = 5;
+var timeSinceLastSave = 1;
+var player = new Array();
+var ScreenNames = new Array("Generation", "Research");
+var SaveValuesEnum = Object.freeze({
     interval_auto: 0,//0 for loop
     magick: 1,
-    maxMagick: 2,//1-9 for basic things
+    maxMagick: 2,
+    currentScreen: 3,//1-9 for basic things
     pure: 10, //10-99 for elements
     puddles: 100, //100-199 for specials
     hasBasicBook: 200, //200-500 for variables
     totalMagickClicks: 500, //500+ for stats
 });
-const increaseRate = 1.25;
-const pureCostStart = 10;
-const puddleCostStart = 1;
-const basicBookCost = 5;
-var timeSinceLastSave = 1;
-var pureCost = pureCostStart;
-var puddleCost = puddleCostStart;
-var player = new Array();
-player_defults();
 function player_defults() {
     player[SaveValuesEnum.interval_auto] = null;
     player[SaveValuesEnum.magick] = 0;
     player[SaveValuesEnum.maxMagick] = 50;
+    player[SaveValuesEnum.currentScreen] = ScreenNames[0];
     player[SaveValuesEnum.pure] = 0;
     player[SaveValuesEnum.puddles] = 0;
     player[SaveValuesEnum.hasBasicBook] = 0;
@@ -29,6 +29,10 @@ function player_defults() {
 Array.prototype.loadData = function (loadArray) {
     for (i = 0; i < loadArray.length; i++)
     { player[i] = loadArray[i]; }
+}
+
+Number.prototype.getCost = function(quantity){
+    return Math.floor(this * Math.pow(increaseRate, quantity));
 }
 
 function reset_game() {
@@ -79,16 +83,18 @@ function magickClick(number) {
 };
 
 function pureClick(number) {
-    if (player[SaveValuesEnum.magick] < pureCost) return;
+    var costOfStuff = pureCostStart.getCost(player[SaveValuesEnum.pure]);
+    if (player[SaveValuesEnum.magick] < costOfStuff) return;
     player[SaveValuesEnum.pure]++;
-    player[SaveValuesEnum.magick] -= pureCost;
+    player[SaveValuesEnum.magick] -= costOfStuff;
     update_view();
 };
 
 function puddleClick(number) {
-    if (player[SaveValuesEnum.pure] < puddleCost) return;
+    var costOfStuff = puddleCostStart.getCost(player[SaveValuesEnum.puddles]);
+    if (player[SaveValuesEnum.pure] < costOfStuff) return;
     player[SaveValuesEnum.puddles]++;
-    player[SaveValuesEnum.pure] -= puddleCost;
+    player[SaveValuesEnum.pure] -= costOfStuff;
     update_view();
 };
 
@@ -101,26 +107,42 @@ function bookClick() {
 }
 
 function viewClick(id) {
-    //need to make an array of sections
     //need to make css of active/unactive
-    document.getElementById("Generation").hidden = "Generation" != id;
-    document.getElementById("Research").hidden = "Research" != id;
+    player[SaveValuesEnum.currentScreen] = id;
+    update_screen();
+}
+
+function update_screen() {
+    var match;
+    var className;
+    for (i = 0; i < ScreenNames.length; i++) {
+        match = ScreenNames[i] == player[SaveValuesEnum.currentScreen];
+        match ? className = "selectedView" : className = "nonSelectedView";
+        document.getElementById(ScreenNames[i] + "Span").className = className;
+        document.getElementById(ScreenNames[i]).hidden = !match;
+    }
 }
 
 function update_view() {
+    var displayMath;
+    //title
+    document.title = player[SaveValuesEnum.magick] + "¤ | Arcane Clicker";
+    //screen
+    update_screen();
     //buttons
-    document.getElementById("puddleClick").hidden = !player[SaveValuesEnum.hasBasicBook];
+    document.getElementById("puddleClick").disabled = !player[SaveValuesEnum.hasBasicBook];
     document.getElementById("bookClick").disabled = player[SaveValuesEnum.hasBasicBook];
     //values
     document.getElementById("magick").innerHTML = player[SaveValuesEnum.magick];
     document.getElementById("maxMagick").innerHTML = player[SaveValuesEnum.maxMagick];
-    document.title = player[SaveValuesEnum.magick] + "¤ | Arcane Clicker";
     document.getElementById('pure').innerHTML = player[SaveValuesEnum.pure];
-    pureCost = Math.floor(pureCostStart * Math.pow(increaseRate, player[SaveValuesEnum.pure]));
-    document.getElementById("pureCost").innerHTML = pureCost;
     document.getElementById('puddles').innerHTML = player[SaveValuesEnum.puddles];
-    puddleCost = Math.floor(puddleCostStart * Math.pow(increaseRate, player[SaveValuesEnum.puddles]));
-    document.getElementById("puddleCost").innerHTML = puddleCost;
+    //Prices
+    displayMath = pureCostStart.getCost(player[SaveValuesEnum.pure]);
+    document.getElementById("pureCost").innerHTML = displayMath;
+    displayMath = puddleCostStart.getCost(player[SaveValuesEnum.puddles]);
+    document.getElementById("puddleCost").innerHTML = displayMath;
+    //footer
     document.getElementById("lastSave").innerHTML = timeSinceLastSave;
 }
 
@@ -138,8 +160,8 @@ function update_time() {
 }
 
 //start time
+player_defults();
 update_time();
-
 load_game();
 //auto-save
 setInterval(function () {
