@@ -2,8 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="PageStyle.css" />
-    <script type="text/javascript" src="JavaScript/jquery.js"></script>
-    <script type="text/javascript" src="JavaScript/Events.js"></script>
     <title>Arcane Clicker</title>
     <meta name="description" content="Arcane clicker is a game where you gather magic, craft spells, click buttons, and become a master spellcaster!" />
 </head>
@@ -16,15 +14,26 @@
         Mana Puddles <span id="puddles">0</span>
     </h3>
     <h4>
-        Choose View: <span id="GenerationSpan" onclick="viewClick('Generation')">Generation</span> | <span id="ResearchSpan" onclick="viewClick('Research')">Research</span>
+        Choose View: 
+        <span id="GenerationSpan" onclick="viewClick('Generation')">Generation</span> 
+        | 
+        <span id="ResearchSpan" onclick="viewClick('Research')">Research</span>
     </h4>
     <div id="Generation">
-        <button id="magicClick" class="btn" onclick="magickClick(1)">Focus Magicks</button>
-        <button id="pureClick" class="btn" onclick="pureClick(1)">Convert (<span id="pureCost">10</span>) Magick to a Pure Chi</button>
-        <button id="puddleClick" class="btnHidden" onclick="puddleClick(1)">Convert (<span id="puddleCost">1</span>) Pure Chi to a Mana Pool</button>
+        <button id="magicClick" class="btn">Focus Magicks</button>
+        <button id="pureClick" class="btn">Convert (<span id="pureCost">10</span>) Magick to a Pure Chi</button>
+        <button id="puddleClick">Convert (<span id="puddleCost">1</span>) Pure Chi to a Mana Pool</button>
     </div>
-    <div hidden id="Research">
+    <div hidden id="Research" ondragover="allowDrop(event)">
         <button id="bookClick" class="btn">Turn (5) Pure Chi into a book of Magic</button>
+        <img id="earth" src="Img/earth.jpg" draggable="true" ondragstart="drag(event)" />
+        <img id="fire" src="Img/fire.jpg" draggable="true" ondragstart="drag(event)" />
+        <img id="metal" src="Img/metal.jpg" draggable="true" ondragstart="drag(event)" />
+        <img id="water" src="Img/water.jpg" draggable="true" ondragstart="drag(event)" />
+        <img id="wood" src="Img/wood.jpg" draggable="true" ondragstart="drag(event)" />
+        <div id="pot" class="divCreation" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <br />
+        
     </div>
 
     <footer>
@@ -33,26 +42,16 @@
         <button id="importClick" class="btn" onclick="importClick()">Import Save</button>
         <button id="resetClick" class="btn" onclick="reset_game()">Reset</button>
         <p> 
-            Ver 0.07 03/16/14
+            Ver 0.08 04/05/14
             <br />Posted by: Frosty Games: <a href="mailto:lsmfx1@hotmail.com">Contact Us</a>
             <br />Time since last save <span id="lastSave">0</span> seconds.
         </p>
     </footer>
+    <script type="text/javascript" src="JavaScript/jquery.js"></script>
+    <script type="text/javascript" src="JavaScript/Events.js"></script>
     <script type="text/javascript" src="JavaScript/Data.js"></script>
     <script type="text/javascript" src="JavaScript/UI.js"></script>
     <script type="text/javascript" src="JavaScript/Saving.js"></script>
-    <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-48701113-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
+    <script type="text/javascript" src="JavaScript/Google.js"></script>
 </body>
 </html>

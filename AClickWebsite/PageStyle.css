@@ -31,7 +31,15 @@ font-size:18px;
 {
     cursor:initial;
 }
-.btnHidden
+.Hidden
 {
     display:none;
+}
+.divCreation
+{
+    overflow:hidden;
+    width:500px;
+    height:500px;
+    clear:both;
+    border:1px solid black;
 }

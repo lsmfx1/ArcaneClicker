@@ -28,4 +28,9 @@ function player_defults() {
     player[SaveValuesEnum.totalMagickClicks] = 0;
 }
 
+function AddMagic(number) {
+    var newMagick = player[SaveValuesEnum.magick] + number;
+    newMagick > player[SaveValuesEnum.maxMagick] ? player[SaveValuesEnum.magick] = player[SaveValuesEnum.maxMagick] : player[SaveValuesEnum.magick] = newMagick;
+};
+
 player_defults();

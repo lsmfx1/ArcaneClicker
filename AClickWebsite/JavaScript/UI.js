@@ -1,7 +1,4 @@
-﻿var UIEnabledElements = new Array();
-var UIDisabledElements = new Array();
-
-Number.prototype.getCost = function (quantity) {
+﻿Number.prototype.getCost = function (quantity) {
     return Math.floor(this * Math.pow(increaseRate, quantity));
 }
 
@@ -18,14 +15,27 @@ function viewClick(id) {
     update_screen();
 }
 
-function statupUpdate() {
+//add elements to array
+function hiddenUpdate() {
     if (player[SaveValuesEnum.hasBasicBook]) {
-        $('#puddleClick').removeClass('btnHidden');
-        $('#bookClick').addClass('btnHidden');
+        $('#puddleClick').removeClass('Hidden');
+        $('#earth').removeClass('Hidden');
+        $('#fire').removeClass('Hidden');
+        $('#metal').removeClass('Hidden');
+        $('#pot').removeClass('Hidden');
+        $('#water').removeClass('Hidden');
+        $('#wood').removeClass('Hidden');
+        $('#bookClick').addClass('Hidden');
     }
     else {
-        $('#puddleClick').addClass('btnHidden');
-        $('#bookClick').removeClass('btnHidden');
+        $('#puddleClick').addClass('Hidden');
+        $('#earth').addClass('Hidden');
+        $('#fire').addClass('Hidden');
+        $('#metal').addClass('Hidden');
+        $('#pot').addClass('Hidden');
+        $('#water').addClass('Hidden');
+        $('#wood').addClass('Hidden');
+        $('#bookClick').removeClass('Hidden');
     }
     update_view();
 }
@@ -63,12 +73,12 @@ function update_screen() {
 function update_time() {
     clearInterval(player[SaveValuesEnum.interval_auto]);
     player[SaveValuesEnum.interval_auto] = setInterval(function () {
-        magickClick(player[SaveValuesEnum.puddles]);
+        AddMagic(player[SaveValuesEnum.puddles]);
     }, 1000);
 }
 
 function UpdateALL() {
-    statupUpdate();
+    hiddenUpdate();
     update_view();
     update_screen();
     update_time();
