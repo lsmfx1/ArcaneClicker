@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" type="text/css" href="PageStyle.css" />
+    <script type="text/javascript" src="JavaScript/jquery.js"></script>
+    <script type="text/javascript" src="JavaScript/Events.js"></script>
     <title>Arcane Clicker</title>
     <meta name="description" content="Arcane clicker is a game where you gather magic, craft spells, click buttons, and become a master spellcaster!" />
 </head>
@@ -19,10 +21,10 @@
     <div id="Generation">
         <button id="magicClick" class="btn" onclick="magickClick(1)">Focus Magicks</button>
         <button id="pureClick" class="btn" onclick="pureClick(1)">Convert (<span id="pureCost">10</span>) Magick to a Pure Chi</button>
-        <button id="puddleClick" class="btn" onclick="puddleClick(1)">Convert (<span id="puddleCost">1</span>) Pure Chi to a Mana Pool</button>
+        <button id="puddleClick" class="btnHidden" onclick="puddleClick(1)">Convert (<span id="puddleCost">1</span>) Pure Chi to a Mana Pool</button>
     </div>
     <div hidden id="Research">
-        <button id="bookClick" class="btn" onclick="bookClick()">Turn (5) Pure Chi into a book of Magic</button>
+        <button id="bookClick" class="btn">Turn (5) Pure Chi into a book of Magic</button>
     </div>
 
     <footer>
@@ -31,12 +33,14 @@
         <button id="importClick" class="btn" onclick="importClick()">Import Save</button>
         <button id="resetClick" class="btn" onclick="reset_game()">Reset</button>
         <p> 
-            Ver 0.06
+            Ver 0.07 03/16/14
             <br />Posted by: Frosty Games: <a href="mailto:lsmfx1@hotmail.com">Contact Us</a>
             <br />Time since last save <span id="lastSave">0</span> seconds.
         </p>
     </footer>
-    <script type="text/javascript" src="ArcaneClickScript.js"></script>
+    <script type="text/javascript" src="JavaScript/Data.js"></script>
+    <script type="text/javascript" src="JavaScript/UI.js"></script>
+    <script type="text/javascript" src="JavaScript/Saving.js"></script>
     <script type="text/javascript">
 
         var _gaq = _gaq || [];
