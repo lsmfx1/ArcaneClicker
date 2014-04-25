@@ -24,16 +24,20 @@
         <button id="pureClick" class="btn">Convert (<span id="pureCost">10</span>) Magick to a Pure Chi</button>
         <button id="puddleClick">Convert (<span id="puddleCost">1</span>) Pure Chi to a Mana Pool</button>
     </div>
-    <div hidden id="Research" ondragover="allowDrop(event)">
+    <div hidden id="Research" ondragover="allowDrop(event)" ondrop="allowDrop(event)">
         <button id="bookClick" class="btn">Turn (5) Pure Chi into a book of Magic</button>
-        <img id="earth" src="Img/earth.jpg" draggable="true" ondragstart="drag(event)" />
-        <img id="fire" src="Img/fire.jpg" draggable="true" ondragstart="drag(event)" />
-        <img id="metal" src="Img/metal.jpg" draggable="true" ondragstart="drag(event)" />
-        <img id="water" src="Img/water.jpg" draggable="true" ondragstart="drag(event)" />
-        <img id="wood" src="Img/wood.jpg" draggable="true" ondragstart="drag(event)" />
-        <div id="pot" class="divCreation" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-        <br />
-        
+        <button id="resetMixClick" class="btn">Reset mixture</button><br />
+        <div id="Mixture">
+            <img id="earth" src="Img/earth.jpg" draggable="true" ondragstart="drag(event)" />
+            <img id="fire" src="Img/fire.jpg" draggable="true" ondragstart="drag(event)" />
+            <img id="metal" src="Img/metal.jpg" draggable="true" ondragstart="drag(event)" />
+            <img id="water" src="Img/water.jpg" draggable="true" ondragstart="drag(event)" />
+            <img id="wood" src="Img/wood.jpg" draggable="true" ondragstart="drag(event)" />
+            <div id="pot" class="divCreation" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <br />
+        </div>
+        <button id="finishtMixClick" class="btn">Finish mixture!</button>
+
     </div>
 
     <footer>
@@ -42,7 +46,7 @@
         <button id="importClick" class="btn" onclick="importClick()">Import Save</button>
         <button id="resetClick" class="btn" onclick="reset_game()">Reset</button>
         <p> 
-            Ver 0.08 04/05/14
+            Ver 0.1 04/25/14
             <br />Posted by: Frosty Games: <a href="mailto:lsmfx1@hotmail.com">Contact Us</a>
             <br />Time since last save <span id="lastSave">0</span> seconds.
         </p>

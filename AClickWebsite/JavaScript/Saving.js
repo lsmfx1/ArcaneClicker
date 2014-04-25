@@ -45,3 +45,4 @@ function load_game_string(loadedGame) {
 
 load_game();
 UpdateALL();
+$('#Research').data('reset', $('#Mixture').html());

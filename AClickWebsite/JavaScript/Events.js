@@ -29,6 +29,14 @@
         hiddenUpdate();
         update_view();
     })
+
+    $('#resetMixClick').click(function () {
+        $('#Mixture').html($('#Research').data('reset'));
+    })
+
+    $('#finishtMixClick').click(function () {
+        $('#Mixture').html($('#Research').data('reset'));
+    })
 })
 
 function allowDrop(ev) {
@@ -41,6 +49,7 @@ function drag(ev) {
 
 function drop(ev) {
     ev.preventDefault();
+    if (ev.target.id != "pot") return;
     var data = ev.dataTransfer.getData("Text");
     ev.target.appendChild(document.getElementById(data));
 }

@@ -19,22 +19,16 @@ function viewClick(id) {
 function hiddenUpdate() {
     if (player[SaveValuesEnum.hasBasicBook]) {
         $('#puddleClick').removeClass('Hidden');
-        $('#earth').removeClass('Hidden');
-        $('#fire').removeClass('Hidden');
-        $('#metal').removeClass('Hidden');
-        $('#pot').removeClass('Hidden');
-        $('#water').removeClass('Hidden');
-        $('#wood').removeClass('Hidden');
+        $('#resetMixClick').removeClass('Hidden');
+        $('#finishtMixClick').removeClass('Hidden');
+        $('#Mixture').removeClass('Hidden');
         $('#bookClick').addClass('Hidden');
     }
     else {
         $('#puddleClick').addClass('Hidden');
-        $('#earth').addClass('Hidden');
-        $('#fire').addClass('Hidden');
-        $('#metal').addClass('Hidden');
-        $('#pot').addClass('Hidden');
-        $('#water').addClass('Hidden');
-        $('#wood').addClass('Hidden');
+        $('#resetMixClick').addClass('Hidden');
+        $('#finishtMixClick').addClass('Hidden');
+        $('#Mixture').addClass('Hidden');
         $('#bookClick').removeClass('Hidden');
     }
     update_view();
